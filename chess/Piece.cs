@@ -13,7 +13,7 @@ namespace chess
         public char[,] location = new char[8, 8];
 
         public bool White;
-        public enum PieceType { None, King, Pawn, Knight, Bishop, Rook, Queen, Move }
+        public enum PieceType { None, King, Pawn, Knight, Bishop, Rook, Queen, Move}
 
         public char translateToChar()
         {
@@ -73,6 +73,14 @@ namespace chess
                 }
             }
             return '$';
+        }
+        public object Clone()
+        {
+            return new Piece
+            {
+                state = this.state,
+                White = this.White,
+            };
         }
     }
 }

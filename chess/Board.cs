@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Reflection.PortableExecutable;
 using System.Text;
 using System.Threading.Tasks;
 using static chess.Piece;
@@ -25,9 +26,12 @@ namespace chess
     public class Board
     {
         private int pos_x { get; set; }
-        private Piece saved_piece { get; set; }
-        private int board_size { get; set; }
         private int pos_y { get; set; }
+        private int previous_x {  get; set; }
+        private int previous_y { get; set; }
+        private int saved_state;
+        private int board_size { get; set; }
+
 
         public List<Piece> pieces = new List<Piece>();
         public Board()
@@ -37,6 +41,8 @@ namespace chess
         }
         public void HandleKey(ConsoleKey key)
         {
+            //DrawSelectedTile();
+            //HandleSelectedTile();
             switch (key)
             {
                 case ConsoleKey.A:
@@ -54,13 +60,17 @@ namespace chess
                 case ConsoleKey.Spacebar:
                     break;
             }
-            DrawSelectedTile();
+            
             HandleSelectedTile();
+            DrawSelectedTile();
+
             //this.DrawSelectedTile();
         }
 
         private void Move(int dx, int dy)
         {
+            previous_x = pos_x;
+            previous_y = pos_y;
             this.pos_x = Math.Max(0, Math.Min(this.board_size - 1, this.pos_x + dx));
             this.pos_y = Math.Max(0, Math.Min(this.board_size - 1, this.pos_y + dy));
         }
@@ -141,20 +151,20 @@ namespace chess
             }
             Console.WriteLine();
         }
+
         private void DrawSelectedTile()
         {
-            this.saved_piece = this.pieces[pos_x * this.board_size + pos_y];
+            this.saved_state = this.pieces[pos_x * this.board_size + pos_y].state;
             this.pieces[pos_x * this.board_size + pos_y].state = (int)PieceType.Move;
         }
+
         private void HandleSelectedTile()
         {
-            if (this.pieces[pos_x * this.board_size + pos_y].state == (int)PieceType.Move)
+            if (this.pieces[previous_x * this.board_size + previous_y].state == (int)PieceType.Move)
             {
-                this.pieces[pos_x * this.board_size + pos_y] = this.saved_piece;
+                this.pieces[previous_x * this.board_size + previous_y].state = this.saved_state;
             }
         }
-
-
         public void Draw()
         {
             DrawBoard();
