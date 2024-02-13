@@ -74,19 +74,5 @@ namespace chess
             }
             return '$';
         }
-
-        public void SetColors()
-        {
-            switch (state)
-            {
-                case (int)PieceType.King: Console.ForegroundColor = ConsoleColor.Red; break;
-                case (int)PieceType.Pawn:
-                case (int)PieceType.Knight:
-                case (int)PieceType.Bishop:
-                case (int)PieceType.Rook:
-                case (int)PieceType.Queen:
-                case (int)PieceType.None: break;
-            }
-        }
     }
 }
