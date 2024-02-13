@@ -154,15 +154,17 @@ namespace chess
 
         private void DrawSelectedTile()
         {
-            this.saved_state = this.pieces[pos_x * this.board_size + pos_y].state;
-            this.pieces[pos_x * this.board_size + pos_y].state = (int)PieceType.Move;
+            int source = pos_x * this.board_size + pos_y;
+            this.saved_state = this.pieces[source].state;
+            this.pieces[source].state = (int)PieceType.Move;
         }
 
         private void HandleSelectedTile()
         {
-            if (this.pieces[previous_x * this.board_size + previous_y].state == (int)PieceType.Move)
+            int destination = previous_x * this.board_size + previous_y;
+            if (this.pieces[destination].state == (int)PieceType.Move)
             {
-                this.pieces[previous_x * this.board_size + previous_y].state = this.saved_state;
+                this.pieces[destination].state = this.saved_state;
             }
         }
         public void Draw()
