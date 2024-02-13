@@ -36,13 +36,11 @@ namespace chess
         public List<Piece> pieces = new List<Piece>();
         public Board()
         {
-            InitPieces();
-            board_size = (int)Math.Sqrt(pieces.Count);
+            this.InitPieces();
+            this.board_size = (int)Math.Sqrt(this.pieces.Count);
         }
         public void HandleKey(ConsoleKey key)
         {
-            //DrawSelectedTile();
-            //HandleSelectedTile();
             switch (key)
             {
                 case ConsoleKey.A:
@@ -60,11 +58,8 @@ namespace chess
                 case ConsoleKey.Spacebar:
                     break;
             }
-            
             HandleSelectedTile();
             DrawSelectedTile();
-
-            //this.DrawSelectedTile();
         }
 
         private void Move(int dx, int dy)
@@ -90,6 +85,7 @@ namespace chess
             this.pieces[5].state = (int)PieceType.Bishop;
             this.pieces[6].state = (int)PieceType.Knight;
             this.pieces[7].state = (int)PieceType.Rook;
+
             for (int i = 8; i < 16; i++)
             {
                 this.pieces[i].state = (int)PieceType.Pawn;
@@ -126,6 +122,8 @@ namespace chess
         {
             ConsoleColor rfg = Console.ForegroundColor; //reset foreground color
             Console.BackgroundColor = ConsoleColor.DarkGray;
+            ConsoleColor rbg = Console.BackgroundColor; //reset background color
+            
             int board_size = Convert.ToInt16(Math.Sqrt(this.pieces.Count));
             for (int i = 0; i < board_size; i++)
             {
@@ -134,6 +132,7 @@ namespace chess
                 {
                     Console.Write("| ");
                     Console.Write(this.pieces[i * board_size + j].translateToChar());
+                    Console.BackgroundColor = rbg;
                     Console.ForegroundColor = rfg;
                     Console.Write(" ");
                 }
@@ -152,19 +151,35 @@ namespace chess
             Console.WriteLine();
         }
 
+        //private void DrawSelectedTile()
+        //{
+        //    int source = pos_x * this.board_size + pos_y;
+        //    this.saved_state = this.pieces[source].state;
+        //    this.pieces[source].state = (int)PieceType.Move;
+        //}
+
+        //private void HandleSelectedTile()
+        //{
+        //    int destination = previous_x * this.board_size + previous_y;
+        //    if (this.pieces[destination].state == (int)PieceType.Move)
+        //    {
+        //        this.pieces[destination].state = this.saved_state;
+        //    }
+        //}
         private void DrawSelectedTile()
         {
             int source = pos_x * this.board_size + pos_y;
             this.saved_state = this.pieces[source].state;
-            this.pieces[source].state = (int)PieceType.Move;
+            this.pieces[source].is_selected = true;
         }
 
         private void HandleSelectedTile()
         {
             int destination = previous_x * this.board_size + previous_y;
-            if (this.pieces[destination].state == (int)PieceType.Move)
+            if (this.pieces[destination].is_selected) 
             {
                 this.pieces[destination].state = this.saved_state;
+                this.pieces[destination].is_selected = false;
             }
         }
         public void Draw()

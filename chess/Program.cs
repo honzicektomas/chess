@@ -6,7 +6,6 @@
         
         static void Main(string[] args)
         {
-            Console.BackgroundColor = ConsoleColor.DarkGreen;
             b = new Board();
             Console.CursorVisible = false;
 
