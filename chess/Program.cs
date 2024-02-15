@@ -6,12 +6,14 @@
         
         static void Main(string[] args)
         {
+            
             b = new Board();
             Console.CursorVisible = false;
 
             while (true)
             {
-                Console.Clear();
+                Console.BackgroundColor = ConsoleColor.Black;
+                //Console.Clear();
                 b.Draw();
                 
                 ConsoleKeyInfo info = Console.ReadKey(true);

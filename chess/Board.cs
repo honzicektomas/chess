@@ -64,12 +64,11 @@ namespace chess
 
         private void Move(int dx, int dy)
         {
-            previous_x = pos_x;
-            previous_y = pos_y;
+            this.previous_x = this.pos_x;
+            this.previous_y = this.pos_y;
             this.pos_x = Math.Max(0, Math.Min(this.board_size - 1, this.pos_x + dx));
             this.pos_y = Math.Max(0, Math.Min(this.board_size - 1, this.pos_y + dy));
         }
-
         private void InitPieces()
         {
             // Black pieces
@@ -90,6 +89,8 @@ namespace chess
             {
                 this.pieces[i].state = (int)PieceType.Pawn;
             }
+
+
             //None squares
             for (int i = 0; i < 32; i++)
             {
@@ -98,7 +99,6 @@ namespace chess
 
 
             //White pieces
-
             for (int i = 0; i < 16; i++)
             {
                 this.pieces.Add(new Piece() { White = true });
@@ -120,6 +120,7 @@ namespace chess
 
         public void DrawBoard()
         {
+            Console.SetCursorPosition(0, 0);
             ConsoleColor rfg = Console.ForegroundColor; //reset foreground color
             Console.BackgroundColor = ConsoleColor.DarkGray;
             ConsoleColor rbg = Console.BackgroundColor; //reset background color
@@ -151,21 +152,6 @@ namespace chess
             Console.WriteLine();
         }
 
-        //private void DrawSelectedTile()
-        //{
-        //    int source = pos_x * this.board_size + pos_y;
-        //    this.saved_state = this.pieces[source].state;
-        //    this.pieces[source].state = (int)PieceType.Move;
-        //}
-
-        //private void HandleSelectedTile()
-        //{
-        //    int destination = previous_x * this.board_size + previous_y;
-        //    if (this.pieces[destination].state == (int)PieceType.Move)
-        //    {
-        //        this.pieces[destination].state = this.saved_state;
-        //    }
-        //}
         private void DrawSelectedTile()
         {
             int source = pos_x * this.board_size + pos_y;
